@@ -1,0 +1,43 @@
+{
+  "name": "tcli",
+  "version": "0.1.0",
+  "description": "Terminal coding agent (TUI + CLI) with permissioned tools",
+  "type": "module",
+  "bin": {
+    "tcli": "./src/cli.ts"
+  },
+  "files": [
+    "src",
+    "dist",
+    "docs",
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "bun run src/cli.ts",
+    "start": "bun run src/cli.ts",
+    "build": "bun build --compile --minify --sourcemap --outfile dist/tcli src/cli.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "test:coverage": "bun test --coverage"
+  },
+  "engines": {
+    "bun": ">=1.2.0"
+  },
+  "keywords": [
+    "cli",
+    "agent",
+    "coding-agent",
+    "tui",
+    "bun"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "bun": "^1.4.4",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.0",
+    "typescript": "^5.9.0"
+  }
+}

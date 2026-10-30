@@ -1,0 +1,71 @@
+{
+  "provider": "deepseek",
+  "model": "deepseek-chat",
+  "temperature": 0,
+  "maxTokens": 8192,
+  "maxSteps": 40,
+  "context": {
+    "window": 128000,
+    "compactAt": 0.8,
+    "keepRecentTurns": 4
+  },
+  "permissions": {
+    "mode": "default",
+    "workspaceOnly": true,
+    "requireReadBeforeWrite": true,
+    "rules": [
+      { "tool": "bash", "match": "bun test*", "action": "allow" },
+      { "tool": "bash", "match": "git status*", "action": "allow" },
+      { "tool": "bash", "match": "git diff*", "action": "allow" },
+      { "tool": "write_file", "match": "docs/**", "action": "allow" }
+    ],
+    "autoApproveYes": ["read_file", "glob", "grep", "git_status", "git_diff", "todo"],
+    "dangerous": { "enabled": true, "extra": [], "allow": [] },
+    "audit": { "enabled": true }
+  },
+  "tools": {
+    "limits": { "maxLines": 2000, "maxBytes": 51200, "maxResults": 200 },
+    "bash": {
+      "timeoutMs": 120000,
+      "envPassthrough": ["GITHUB_TOKEN"]
+    },
+    "web": {
+      "enabled": false,
+      "fetchEnabled": true,
+      "searchEnabled": true,
+      "searchProvider": "duckduckgo",
+      "timeoutMs": 20000,
+      "allowPrivateHosts": false
+    }
+  },
+  "agent": {
+    "timeoutMs": 0,
+    "budget": { "maxTokens": 0, "maxCostUsd": 0 },
+    "subagents": { "enabled": true, "maxDepth": 2, "maxSteps": 20 }
+  },
+  "mcpServers": {
+    "filesystem": {
+      "enabled": false,
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."],
+      "timeoutMs": 20000
+    }
+  },
+  "hooks": {
+    "sessionStart": [],
+    "sessionEnd": [],
+    "preToolUse": [
+      {
+        "matcher": "bash",
+        "command": "printf '{\"decision\":\"ask\",\"reason\":\"review shell command\"}'",
+        "timeoutMs": 5000
+      }
+    ],
+    "postToolUse": []
+  },
+  "customTools": { "enabled": false },
+  "sandbox": { "mode": "off", "network": false },
+  "logging": { "level": "info", "file": true },
+  "telemetry": { "enabled": false },
+  "ui": { "color": "auto", "theme": "dark", "language": "en" }
+}

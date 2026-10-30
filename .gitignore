@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.tcli/
+.npm-cache/
+coverage/
+*.log
+.DS_Store
+tmp/
+.bun-cache/
+.tmp/
