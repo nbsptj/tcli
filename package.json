@@ -1,5 +1,5 @@
 {
-  "name": "tcli",
+  "name": "@nbsptj/tcli",
   "version": "0.1.0",
   "description": "Terminal coding agent (TUI + CLI) with permissioned tools",
   "type": "module",
@@ -8,9 +8,9 @@
   },
   "files": [
     "src",
-    "dist",
     "docs",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "dev": "bun run src/cli.ts",
@@ -18,7 +18,8 @@
     "build": "bun build --compile --minify --sourcemap --outfile dist/tcli src/cli.ts",
     "typecheck": "tsc --noEmit",
     "test": "bun test",
-    "test:coverage": "bun test --coverage"
+    "test:coverage": "bun test --coverage",
+    "prepublishOnly": "bun run typecheck && bun test"
   },
   "engines": {
     "bun": ">=1.2.0"
@@ -28,16 +29,29 @@
     "agent",
     "coding-agent",
     "tui",
-    "bun"
+    "bun",
+    "mcp"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nbsptj/tcli.git"
+  },
+  "homepage": "https://github.com/nbsptj/tcli#readme",
+  "bugs": {
+    "url": "https://github.com/nbsptj/tcli/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "dependencies": {
     "ajv": "^8.20.0",
-    "bun": "^1.4.4",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/bun": "^1.2.0",
+    "bun": "^1.4.4",
     "typescript": "^5.9.0"
   }
 }

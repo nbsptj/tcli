@@ -3,14 +3,14 @@
   "configVersion": 0,
   "workspaces": {
     "": {
-      "name": "tcli",
+      "name": "@nbsptj/tcli",
       "dependencies": {
         "ajv": "^8.20.0",
-        "bun": "^1.4.4",
         "zod": "^4.6.7",
       },
       "devDependencies": {
         "@types/bun": "^1.2.0",
+        "bun": "^1.4.4",
         "typescript": "^5.9.0",
       },
     },

@@ -52,6 +52,21 @@ run headless (CI, pipes, tests) or behind the full-screen TUI.
 
 ## Install / run
 
+Published npm package: **`@nbsptj/tcli`** (Bun must be installed; the `tcli`
+shebang runs Bun).
+
+```bash
+# global install
+npm install -g @nbsptj/tcli
+# or
+bun add -g @nbsptj/tcli
+
+tcli --version
+tcli
+```
+
+From a clone:
+
 ```bash
 bun install
 
@@ -64,8 +79,8 @@ bun run build
 ./dist/tcli --version
 ```
 
-`package.json` exposes `tcli` as a bin (the shebang runs Bun), so
-`bun link` / npm installation also works when Bun is installed.
+`package.json` exposes the `tcli` bin (the shebang runs Bun), so `bun link`
+also works for local development.
 
 ## Quick start
 
@@ -592,6 +607,38 @@ Tests cover the permission policy, danger classifier, config layering, ignore
 engine, tools, providers (mock SSE servers), agent loop/concurrency/abort/
 compaction, sessions/checkpoints, context, MCP (stdio + HTTP), hooks, custom
 extensions, UI primitives/TUI composition, and CLI end-to-end JSON/streaming.
+
+### Publishing to npm
+
+The package is published as **`@nbsptj/tcli`** (the unscoped `tcli` name is
+already taken on npm). `package.json` already sets `publishConfig.access =
+public` and the public npm registry.
+
+```bash
+# once per machine
+npm login --registry=https://registry.npmjs.org/
+npm whoami --registry=https://registry.npmjs.org/
+
+# verify package contents (must not include dist/tcli, .tcli, node_modules)
+bun run typecheck && bun test
+npm pack --dry-run --registry=https://registry.npmjs.org/
+
+# publish (scoped packages must be public)
+npm publish --registry=https://registry.npmjs.org/ --access public
+```
+
+Notes:
+
+- `files` is an allowlist (`src`, `docs`, `README.md`, `LICENSE`); the 59 MB
+  platform binary in `dist/` is intentionally excluded. Ship binaries through
+  GitHub Releases instead.
+- The default registry on some machines is a mirror (for example
+  `registry.npmmirror.com`); publishing must target
+  `https://registry.npmjs.org/` explicitly.
+- If npm reports `EPERM` for `~/.npm/_cacache`, fix ownership or use a local
+  cache: `npm --cache .npm-cache publish ...`.
+- `prepublishOnly` runs `typecheck` and the full test suite.
+- Bump the version (`npm version patch`) and push the tag after publishing.
 
 ## Status and limitations
 
